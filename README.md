@@ -80,3 +80,88 @@ sudo apt install python3 python3-pip  #Ubuntu/Debian
 
 #Buka browser: http://localhost:5000
 
+🔧 Konfigurasi Lanjutan
+Ubah Port Server (jika 5000 dipakai)
+# Edit server.py, baris terakhir:
+> app.run(debug=True, port=8080)  # Ganti dengan port lain
+
+Enable HTTPS (Opsional)
+# Tambahkan ssl_context
+> app.run(debug=True, port=5000, ssl_context='adhoc')
+
+🛠️ Troubleshooting Termux
+
+1. Port 5000 sudah digunakan:
+#Cari proses yang pakai port 5000
+> netstat -tulpn | grep :5000
+
+#Atau kill semua proses Python
+> pkill -f python
+
+#Coba port lain
+> python server.py --port 8080
+
+2. Module tidak ditemukan:
+#Update pip
+> pip install --upgrade pip
+
+#Install ulang dependensi
+> pip uninstall flask flask-cors pyjwt -y
+> pip install flask flask-cors pyjwt
+
+3. Permission denied:
+# Beri permission
+chmod +x server.py
+chmod 644 *.json
+
+4. Database corrupt:
+# Backup database
+cp users.json users.json.backup
+cp notes.json notes.json.backup
+
+# Reset database
+echo "{}" > users.json
+echo "{}" > notes.json
+
+📱 Tips Termux Pro
+Jalankan di Background:
+
+# Gunakan nohup
+nohup python server.py &
+
+# Cek log
+tail -f nohup.out
+
+#Stop server
+pkill -f "python server.py"
+
+Auto-start saat boot (root):
+
+# Install termux-boot
+pkg install termux-boot
+
+# Buat script startup
+mkdir -p ~/.termux/boot
+echo 'cd ~/asisten-shadow && python server.py' > ~/.termux/boot/start-asisten
+chmod +x ~/.termux/boot/start-asisten
+
+Backup data ke Google Drive:
+
+# Install rclone
+pkg install rclone
+
+# Konfigurasi rclone
+rclone config
+
+# Backup
+rclone copy users.json drive:asisten-shadow-backup/
+rclone copy notes.json drive:asisten-shadow-backup/
+
+# Reset & Update:
+cd ~
+rm -rf asisten-shadow
+git clone git@github.com:suryadiarsyil-ops/asisten-shadow.git
+cd asisten-shadow
+pip install flask flask-cors pyjwt
+python server.py
+
