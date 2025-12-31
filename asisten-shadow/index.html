@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asisten Shadow - Catatan Pribadi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-ghost"></i>
+                <h1>Asisten Shadow</h1>
+                <span class="tagline">Catatan Pribadi Terenkripsi</span>
+            </div>
+            <div class="user-info" id="userInfo">
+                <span id="usernameDisplay"></span>
+                <button id="logoutBtn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <!-- Login/Register Section -->
+        <div class="auth-section" id="authSection">
+            <div class="auth-card">
+                <div class="auth-tabs">
+                    <button class="tab-btn active" id="loginTab">Login</button>
+                    <button class="tab-btn" id="registerTab">Register</button>
+                </div>
+                
+                <div class="auth-content">
+                    <!-- Login Form -->
+                    <div class="form-container active" id="loginForm">
+                        <h2><i class="fas fa-sign-in-alt"></i> Masuk ke Akun</h2>
+                        <div class="form-group">
+                            <label for="loginUsername">
+                                <i class="fas fa-user"></i> Username
+                            </label>
+                            <input type="text" id="loginUsername" placeholder="Masukkan username">
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">
+                                <i class="fas fa-lock"></i> Password
+                            </label>
+                            <input type="password" id="loginPassword" placeholder="Masukkan password">
+                            <button class="toggle-password" type="button">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <button id="loginBtn" class="btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                        <div class="auth-message" id="loginMessage"></div>
+                    </div>
+                    
+                    <!-- Register Form -->
+                    <div class="form-container" id="registerForm">
+                        <h2><i class="fas fa-user-plus"></i> Buat Akun Baru</h2>
+                        <div class="form-group">
+                            <label for="registerUsername">
+                                <i class="fas fa-user"></i> Username
+                            </label>
+                            <input type="text" id="registerUsername" placeholder="Buat username">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">
+                                <i class="fas fa-lock"></i> Password
+                            </label>
+                            <input type="password" id="registerPassword" placeholder="Buat password">
+                            <button class="toggle-password" type="button">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">
+                                <i class="fas fa-lock"></i> Konfirmasi Password
+                            </label>
+                            <input type="password" id="confirmPassword" placeholder="Ulangi password">
+                            <button class="toggle-password" type="button">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <button id="registerBtn" class="btn-primary">
+                            <i class="fas fa-user-plus"></i> Register
+                        </button>
+                        <div class="auth-message" id="registerMessage"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App Section (Hidden initially) -->
+        <div class="app-section" id="appSection" style="display: none;">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="user-welcome">
+                    <i class="fas fa-user-circle"></i>
+                    <h3 id="sidebarUsername"></h3>
+                    <p id="noteCount">0 catatan</p>
+                </div>
+                
+                <nav class="sidebar-menu">
+                    <button class="menu-btn active" data-section="notes">
+                        <i class="fas fa-sticky-note"></i> Catatan Saya
+                    </button>
+                    <button class="menu-btn" data-section="add">
+                        <i class="fas fa-plus-circle"></i> Tambah Catatan
+                    </button>
+                    <button class="menu-btn" data-section="locked">
+                        <i class="fas fa-lock"></i> Catatan Terkunci
+                    </button>
+                    <button class="menu-btn" data-section="stats">
+                        <i class="fas fa-chart-bar"></i> Statistik
+                    </button>
+                </nav>
+                
+                <div class="quick-actions">
+                    <h4><i class="fas fa-bolt"></i> Aksi Cepat</h4>
+                    <button class="quick-btn" id="quickAdd">
+                        <i class="fas fa-plus"></i> Catatan Baru
+                    </button>
+                    <button class="quick-btn" id="viewAll">
+                        <i class="fas fa-list"></i> Lihat Semua
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Notes Section -->
+                <div class="content-section active" id="notesSection">
+                    <div class="section-header">
+                        <h2><i class="fas fa-sticky-note"></i> Catatan Saya</h2>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchNotes" placeholder="Cari catatan...">
+                        </div>
+                    </div>
+                    
+                    <div class="notes-grid" id="notesGrid">
+                        <!-- Catatan akan ditampilkan di sini -->
+                        <div class="empty-state">
+                            <i class="fas fa-clipboard"></i>
+                            <h3>Belum ada catatan</h3>
+                            <p>Mulai dengan menambahkan catatan pertama Anda</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Note Section -->
+                <div class="content-section" id="addNoteSection">
+                    <div class="section-header">
+                        <h2><i class="fas fa-plus-circle"></i> Tambah Catatan Baru</h2>
+                    </div>
+                    
+                    <div class="add-note-form">
+                        <div class="form-group">
+                            <label for="noteTitle">
+                                <i class="fas fa-heading"></i> Judul (Opsional)
+                            </label>
+                            <input type="text" id="noteTitle" placeholder="Judul catatan">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="noteContent">
+                                <i class="fas fa-edit"></i> Isi Catatan
+                            </label>
+                            <textarea id="noteContent" rows="10" placeholder="Tulis catatan Anda di sini..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="lockNote">
+                                <i class="fas fa-lock"></i> Kunci Catatan
+                            </label>
+                            <div class="lock-options" id="lockOptions" style="display: none;">
+                                <input type="password" id="notePassword" placeholder="Password untuk catatan">
+                                <input type="password" id="confirmNotePassword" placeholder="Konfirmasi password">
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button id="saveNoteBtn" class="btn-primary">
+                                <i class="fas fa-save"></i> Simpan Catatan
+                            </button>
+                            <button id="clearNoteBtn" class="btn-secondary">
+                                <i class="fas fa-times"></i> Bersihkan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Locked Notes Section -->
+                <div class="content-section" id="lockedNotesSection">
+                    <div class="section-header">
+                        <h2><i class="fas fa-lock"></i> Catatan Terkunci</h2>
+                    </div>
+                    
+                    <div class="locked-notes" id="lockedNotesList">
+                        <!-- Catatan terkunci akan ditampilkan di sini -->
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="content-section" id="statsSection">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-bar"></i> Statistik</h2>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-sticky-note"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalNotes">0</h3>
+                                <p>Total Catatan</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon locked">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="lockedNotes">0</h3>
+                                <p>Catatan Terkunci</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon unlocked">
+                                <i class="fas fa-unlock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="unlockedNotes">0</h3>
+                                <p>Catatan Terbuka</p>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon time">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="lastActivity">-</h3>
+                                <p>Aktivitas Terakhir</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-log">
+                        <h3><i class="fas fa-history"></i> Aktivitas Terbaru</h3>
+                        <div id="activityList">
+                            <!-- Aktivitas akan ditampilkan di sini -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal untuk melihat/mengedit catatan -->
+        <div class="modal" id="noteModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle"></h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="noteModalContent">
+                        <!-- Konten catatan akan ditampilkan di sini -->
+                    </div>
+                    <div id="noteModalPassword" style="display: none;">
+                        <input type="password" id="unlockPassword" placeholder="Masukkan password">
+                        <button id="unlockBtn" class="btn-primary">Buka</button>
+                    </div>
+                </div>
+                <div class="modal-footer" id="modalActions">
+                    <!-- Tombol aksi akan ditampilkan di sini -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+            <p>Memuat...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
