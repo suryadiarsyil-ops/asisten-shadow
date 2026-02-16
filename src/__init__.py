@@ -10,8 +10,6 @@ __description__ = "Aplikasi catatan pribadi terenkripsi dengan keamanan tingkat 
 
 from .user_manager import UserManager
 from .notes_manager import NotesManager
-from .utils import *
-from .config import *
 
 __all__ = [
     "UserManager",
