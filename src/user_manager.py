@@ -105,8 +105,8 @@ class UserManager:
         if not user:
             return None
         info = {
-            "password": user["password"],  # Add this 
-          if safe, or remove from the test
+            "password": user["password"],  # Add this only 
+         if intended
             "created_at": user["created_at"],
             "last_login": user.get("last_login"),
             "login_count": user.get("login_count", 0),
