@@ -82,3 +82,19 @@ def validate_password(password: str, min_length: int = 6) -> Tuple[bool, str]:
         return False, f"Password minimal {min_length} karakter!"
 
     return True, "Valid"
+    
+def truncate_text(text: str, max_length: int = 100) -> str:
+    """
+    Truncate text to a maximum length.
+    Adds ellipsis if text exceeds max_length.
+    """
+    if not isinstance(text, str):
+        raise TypeError("text must be a string")
+
+    if max_length <= 0:
+        raise ValueError("max_length must be positive")
+
+    if len(text) <= max_length:
+        return text
+
+    return text[: max_length - 3] + "..."
