@@ -1,7 +1,7 @@
 """
 Notes Management Module for Asisten Shadow
 """
-
+from src.utils import truncate_text
 from typing import Dict, List, Optional, Tuple
 from utils import (
     load_data, save_data, hash_password, encode_text, 
