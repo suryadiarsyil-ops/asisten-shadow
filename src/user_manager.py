@@ -106,13 +106,13 @@ class UserManager:
             return None
         info = {
             "password": user["password"],  # Add this 
-    if safe, or remove from the test
+         if safe, or remove from the test
             "created_at": user["created_at"],
             "last_login": user.get("last_login"),
             "login_count": user.get("login_count", 0),
             "profile": user.get("profile", {}),
-       }
-       return info
+        }
+        return info
 
         sanitized = user.copy()
         sanitized.pop("password", None)
