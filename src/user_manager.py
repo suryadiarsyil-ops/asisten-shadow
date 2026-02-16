@@ -42,6 +42,11 @@ class UserManager:
     def _save_users(self, users: Dict) -> bool:
         return save_data(self.user_file, users)
 
+    def _get_user(self, username: str) -> Optional[Dict]:
+        username = self._normalize_username(username)
+        users = self._load_users()
+        return users.get(username)
+
     # ==============================
     # PUBLIC METHODS
     # ==============================
@@ -74,8 +79,8 @@ class UserManager:
             "login_count": 0,
             "profile": {
                 "email": None,
-                "bio": None
-            }
+                "bio": None,
+            },
         }
 
         if self._save_users(users):
@@ -100,29 +105,24 @@ class UserManager:
         self._save_users(users)
         return True, MESSAGES["login_success"]
 
-    def get_user_info(self, username):
+    def get_user_info(self, username: str) -> Optional[Dict]:
         user = self._get_user(username)
         if not user:
             return None
-        info = {
-            "password": user["password"],  # Add this only 
-         if intended
-            "created_at": user["created_at"],
+
+        # Tidak expose password
+        return {
+            "created_at": user.get("created_at"),
             "last_login": user.get("last_login"),
             "login_count": user.get("login_count", 0),
             "profile": user.get("profile", {}),
         }
-        return info
-
-        sanitized = user.copy()
-        sanitized.pop("password", None)
-        return sanitized
 
     def update_profile(
         self,
         username: str,
         email: Optional[str] = None,
-        bio: Optional[str] = None
+        bio: Optional[str] = None,
     ) -> Tuple[bool, str]:
 
         username = self._normalize_username(username)
@@ -146,7 +146,7 @@ class UserManager:
         self,
         username: str,
         old_password: str,
-        new_password: str
+        new_password: str,
     ) -> Tuple[bool, str]:
 
         username = self._normalize_username(username)
@@ -209,5 +209,5 @@ class UserManager:
             "last_login": user_info.get("last_login"),
             "login_count": user_info.get("login_count", 0),
             "email": user_info.get("profile", {}).get("email"),
-            "bio": user_info.get("profile", {}).get("bio")
+            "bio": user_info.get("profile", {}).get("bio"),
         }
